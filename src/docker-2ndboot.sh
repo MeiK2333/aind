@@ -33,6 +33,10 @@ if ! systemctl is-system-running --wait; then
     journalctl -u anbox-container-manager --no-pager -l
     exit 1
 fi
+path=$(pwd)
+cd /home/user
+sudo /home/user/install-arm.sh
+cd $path
 systemctl status --no-pager -l anbox-container-manager
 
 anbox session-manager &

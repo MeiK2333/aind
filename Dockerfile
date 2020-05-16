@@ -114,6 +114,11 @@ ADD src/anbox-container-manager.service /lib/systemd/system/anbox-container-mana
 RUN systemctl enable anbox-container-manager
 ADD src/unsudo /usr/local/bin
 ADD src/docker-2ndboot.sh  /home/user
+RUN apt-get install -y -qq lzip unzip squashfs-tools wget tar zip sudo && \
+  echo "user:passwd" | chpasswd && adduser user sudo && \
+  echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+ADD src/install-arm.sh /home/user
+COPY ./src/houdini /home/user/houdini/
 # Usage: docker run --rm --privileged -v /:/host --entrypoint bash aind/aind -exc "cp -f /install-kmod.sh /host/aind-install-kmod.sh && cd /host && chroot . /aind-install-kmod.sh"
 ADD hack/install-kmod.sh /
 VOLUME /var/lib/anbox
